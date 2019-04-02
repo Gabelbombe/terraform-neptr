@@ -37,7 +37,7 @@ This Terraform configuration deploys AWS Lambda functions that will implement th
 
 ### Directory Structure
 A description of what each file does:
-```
+```bash
 main.tf - Main configuration file. REQUIRED
 data_collectors.tf - Lambda functions for gathering instance data. REQUIRED
 iam_roles.tf - Configures IAM role and policies for your Lambda functions. REQUIRED
@@ -47,6 +47,24 @@ instance_reaper.tf - Checks instance TTL tag, terminates instances that have exp
 untagged_janitor.tf - Cleans up untagged instances after a set number of days.
 _files/ - Contains all of the lambda source code, zip files, and IAM template files.
 ```
+
+## Prerequisites
+1. Admin level access to your AWS account via API. If admin access is not available you must have the ability to create, describe, and delete the following types of resources in AWS. Fine-grained configuration of IAM policies is beyond the scope of this guide. We will assume you have API keys and appropriate permissions that allow you to create the following resources using Terraform:
+```bash
+aws\_cloudwatch\_event\_rule
+aws\_cloudwatch\_event\_target
+aws\_iam\_role
+aws\_iam\_role\_policy
+aws\_lambda\_function
+aws\_lambda\_permission
+aws\_kms\_alias
+aws\_kms\_key
+```
+
+2. Properly configured workstation or server for running Terraform commands. New to Terraform? Try our [Getting Started Guide](https://www.terraform.io/intro/getting-started/install.html)
+
+3. An [incoming webhook integration](https://api.slack.com/incoming-webhooks) in your Slack account. If you want to receive notifications about instance usage and tags you'll need to be able to create a webhook or ask your administrator to help you create one.
+
 
 See [example](example) for a complete example ....
 
