@@ -20,9 +20,11 @@ This write up will help you fix both of these problems with AWS-specific code th
   - How Terraform and Sentinel can help you prevent overspending
 
 #### Who this article is for
+
 This article is relevant for managers and any technical roles tasked with keeping AWS instance costs under control. This may include developers, operations engineers, system administrators, cloud engineers, SREs, or solutions architects.
 
 #### Estimated time to complete
+
   - 30 minutes to implement the ChatOps bot
   - 35 minutes to implement the Sentinel and Terraform workflow
 
@@ -30,3 +32,11 @@ This article is relevant for managers and any technical roles tasked with keepin
 ### A rogue AWS account story
 
 In large enterprises, this is a common story.
+
+Engineers are working on tight deadlines, but the operations team needs days or weeks to set up their environments for the building and testing of those new features. So the engineers get permission to move their development and testing workloads to AWS, where they can set up and tear down environments almost instantly.
+
+Unfortunately, those AWS accounts quickly becomes a free-for-all, with engineers buying anything and everything they think they need with no oversight to ensure efficient usage of resources. The result is a huge monthly bill—caused by lots of unused instances, resources and storage that no one bothered to manage or clean up properly.
+
+Now imagine if you can that you are using something to the affect of [AWS Organizations](https://aws.amazon.com/organizations/) and not just gifting environments, but entire accounts to your engineers! Those hard earned and alotted dollars you need for projects, future improvements and promises to customers and business are now being stolen from Peter to pay Paul.
+
+**Congratulations!** You now have the spider web we affectionbatly refer to as a **Shadow IT Outlet!**
