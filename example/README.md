@@ -74,3 +74,13 @@ In order to _shut off anything that's not in use,_ you'll need to start by ident
 Take a look at this graph from the Cost Explorer:
 
 ![Monthly EC2 Running hours](../assets/cost_explorer.png)
+
+This stacked bar graph shows the expenses from each instance type over time. You can also group by usage type, custom tags, and more.
+
+### The importance of tagging
+
+AWS has a very flexible tagging system. With that flexibility though comes the need for your team to devise and enforce its own standard tagging system, so that there aren't any questions about what resources are for and who created them. When used properly, tags can tell you exactly what each resource is used for and who created it. This brings accountability to the team and their management of cloud costs.
+
+After you've gotten familiar with the Cost Explorer, the next step should be to have your primary AWS operators create tagging standards and document them for team visibility. The most useful instance tags (especially for the purposes of the demo below) are TTL (time-to-live) and owner. Time-to-live is the time limit you put on the life of your instance, which is crucial for identifying what's not in use.
+
+Later in this paper, I'll show you a tool that can enforce your tagging standards using more than just a stern email.
