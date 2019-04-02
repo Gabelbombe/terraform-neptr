@@ -1,5 +1,7 @@
 # Lowering Your AWS Cloud Costs
 
+![Ha! Always Sunny](../ha.gif)
+
 _Are your engineers spending too much money on orphan cloud instances? A simple ChatOps utility built on AWS Lambda can help! This Terraform module will help prevent further Shadow IT practices and replace them with a sprinkle of Infrastructure as Code._
 
 Maybe you've experienced this before: You or your boss are shocked at how expensive your cloud services bill has become. Can you prove that all those cloud instances are being utilized with the greatest possible efficiency? Do you have a way to tag, organize and track all of your instances? If you've lost track of some instances that are no longer necessary, you're basically leaving the water running.
@@ -119,4 +121,4 @@ Remember that this bot can delete live AWS instances, so make sure the engineer 
 
 Here's what the reports looked like in Slack:
 
-![Reaper ChatOps](../assets/guten_tag.png)
+![Reaper ChatOps](../assets/guten_morgen.png)
