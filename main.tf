@@ -3,6 +3,8 @@
 
 Terraform configuration for lifecycle management of AWS instances.
 
+![Lambda bot posting to Slack](./assets/good_morning.png)
+
 Are you spending too much on your AWS instances every month? Do your developers create instances and forget to turn them off? Perhaps you struggle with identifying which person or system created AWS resources? Kill them with fire! j/k just shame them ;)
 
 * ```hcl

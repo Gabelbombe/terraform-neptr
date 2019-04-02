@@ -15,7 +15,7 @@ resource "aws_kms_alias" "notify_slack" {
 
 # Template for our 'decrypt_kms' lambda IAM policy
 data "template_file" "iam_decrypt_kms" {
-  template = "${file("./files/iam_decrypt_kms.tpl")}"
+  template = "${file("./_files/iam_decrypt_kms.tpl")}"
 
   vars {
     kmskey = "${aws_kms_key.notify_slack.arn}"
