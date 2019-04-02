@@ -1,6 +1,6 @@
 # Lowering Your AWS Cloud Costs
 
-![Ha! Always Sunny](../ha.gif)
+![Ha! Always Sunny](../assets/ha.gif)
 
 _Are your engineers spending too much money on orphan cloud instances? A simple ChatOps utility built on AWS Lambda can help! This Terraform module will help prevent further Shadow IT practices and replace them with a sprinkle of Infrastructure as Code._
 
