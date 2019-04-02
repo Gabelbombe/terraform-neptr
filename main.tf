@@ -14,9 +14,9 @@ Are you spending too much on your AWS instances every month? Do your developers 
 * ```
 
 ## Reference Material
-  * [AWS Lambda and Slack Tutorial](https://api.slack.com/tutorials/aws-lambda)
-  * [Slack Integration Blueprints for AWS Lambda](https://aws.amazon.com/blogs/aws/new-slack-integration-blueprints-for-aws-lambda/)
-  * [Terraform `aws_lambda_function` resource](https://www.terraform.io/docs/providers/aws/r/lambda_function.html)
+  - [AWS Lambda and Slack Tutorial](https://api.slack.com/tutorials/aws-lambda)
+  - [Slack Integration Blueprints for AWS Lambda](https://aws.amazon.com/blogs/aws/new-slack-integration-blueprints-for-aws-lambda/)
+  - [Terraform `aws_lambda_function` resource](https://www.terraform.io/docs/providers/aws/r/lambda_function.html)
 
 ## Estimated Time to Complete
 30-60 minutes
