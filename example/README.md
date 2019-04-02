@@ -147,7 +147,7 @@ Terraform Enterprise, a commercial product that includes enterprise features on 
 
 What that means is operators now have the ability to restrict what modifications each user can make to your infrastructure-similar to a fine-grained admin permissions system in a CMS. It also gives you the ability to enforce standards, like the suggested tagging system for AWS instances that was introduced earlier.
 
-```hcl
+```sentinel
 # This policy enforces the mandatory AWS tags "TTL" and "owner" for all aws_instance resources.
 import "tfplan"
 
