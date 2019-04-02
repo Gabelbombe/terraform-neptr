@@ -51,3 +51,18 @@ If you find yourself in a similar mess, here are the questions you need to get a
   - Should we really leave all instances running 24/7?
   - Are we consuming much more than we need?
   - How do we clean up this mess?
+
+
+### Reducing costs: Real-world strategies
+
+  1. The three main ways to cut cloud costs are:
+  2. Shut off anything that's not in use.
+  3. Take a look at your health checks and CloudWatch logs (for AWS) to determine if you're buying the right sized instances.
+
+After 1 and 2 are under control, get some historical data and make informed purchases of [reserved instances](https://aws.amazon.com/ec2/pricing/reserved-instances/) for your most common instance sizes. You're buying instances in advance, so if you use a lot less than what you pay for, you're not cutting costs—you might actually be making your costs higher.
+
+The remainder of this paper will focus on the first cost-reduction strategy, which usually yields the largest reduction in cloud costs. For the other two strategies, consult these resources:
+
+  - [Identifying Opportunities to Right Size](https://docs.aws.amazon.com/aws-technical-content/latest/cost-optimization-right-sizing/identifying-opportunities-to-right-size.html)
+  - [Cost Optimization: EC2 Right Sizing](https://aws.amazon.com/answers/account-management/cost-optimization-ec2-right-sizing/)
+  - [The Ultimate Guide to AWS Reserved Instances](https://www.cloudhealthtech.com/blog/ultimate-guide-aws-reserved-instances-part-1-planning-and-analysis)
