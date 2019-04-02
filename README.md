@@ -61,10 +61,26 @@ aws\_kms\_alias
 aws\_kms\_key
 ```
 
-2. Properly configured workstation or server for running Terraform commands. New to Terraform? Try our [Getting Started Guide](https://www.terraform.io/intro/getting-started/install.html)
+2. Properly configured workstation or server for running Terraform commands. New to Terraform? Try the HashiCorp [Getting Started Guide](https://www.terraform.io/intro/getting-started/install.html)
 
 3. An [incoming webhook integration](https://api.slack.com/incoming-webhooks) in your Slack account. If you want to receive notifications about instance usage and tags you'll need to be able to create a webhook or ask your administrator to help you create one.
 
+## TL;DR
+Below are all of the commands you'll need to run to get these lambda scripts deployed in your account:
+```bash
+# Be sure to configure your Slack webhook and edit your variables.tf file first!
+terraform init
+terraform plan
+terraform apply
+```
+
+## Steps
+The following walkthrough describes in detail the steps required to enable the cleanup and 'reaper' scripts that are included in this repo.
+
+### Step 1: Configure incoming Slack webhook
+Set up your Slack incoming webhook: https://my.slack.com/services/new/incoming-webhook/. Feel free to give your new bot a unique name, icon and description. Make note of the Webhook URL. This is a specially coded URL that allows remote applications to post data into your Slack channels. Do not share this link publicly or commit it to your source code repo. Choose the channel you want your bot to post messages to.
+
+![Slack Webhook Config Page](./assets/aws_bot.png)
 
 See [example](example) for a complete example ....
 
