@@ -83,6 +83,129 @@ Set up your Slack incoming webhook: https://my.slack.com/services/new/incoming-w
 
 ![Slack Webhook Config Page](./assets/aws_bot.png)
 
+### Step 2: Configure your variables
+Edit the `variables.tf` file and choose which region you want to run your Lambda functions in. These functions can be run from any region and manage instances in any other region.
+
+```hcl
+variable "region" {
+  description = "AWS Region"
+  default     = "sa-central-1"
+}
+
+variable "slack_hook_url" {
+  description = "Slack incoming webhook URL, get this from the slack management page."
+  default = "https://hooks.slack.com/services/REPLACE/WITH/YOUR_WEBHOOK"
+}
+```
+
+ * Set the `slack_hook_url` variable to the URL you generated in step #1.
+ * Set any tags that you want to be considered mandatory in the `mandatory_tags` variable. This is a comma separated list, with no spaces between items.
+ * Set the `reap_days` and `sleep_days` to your liking. These represent the number of days after launch that an untagged instance will be stopped and terminated respectively.
+ * Leave the `is_active` variable set to 0 for testing. You must set this to 1 or True if you want to activate the scripts. 0 or False means reporting mode where nothing is actually stopped or terminated.
+ * Save the `variables.tf` file.
+
+### Step 3: Run Terraform Plan
+
+#### CLI
+ * [Terraform Plan Docs](https://www.terraform.io/docs/commands/plan.html)
+
+#### Request
+
+```bash
+$ terraform plan
+```
+
+#### Response
+```bash
+Refreshing Terraform state in-memory prior to plan...
+The refreshed state will be used to calculate this plan, but will not be
+persisted to local or remote state storage.
+
+<Output omitted for brevity>
+
+Plan: 25 to add, 0 to change, 0 to destroy.
+
+------------------------------------------------------------------------
+
+Note: You didn't specify an "-out" parameter to save this plan, so Terraform
+can't guarantee that exactly these actions will be performed if
+"terraform apply" is subsequently run.
+```
+
+### Step 4: Run Terraform Apply
+
+#### CLI
+ * [Terraform Apply Docs](https://www.terraform.io/docs/commands/apply.html)
+
+#### Request
+
+```bash
+$ terraform apply
+```
+
+#### Response
+```bash
+data.aws_caller_identity.current: Refreshing state...
+data.template_file.iam_lambda_read_instances: Refreshing state...
+data.template_file.iam_lambda_stop_and_terminate_instances: Refreshing state...
+data.template_file.iam_lambda_notify: Refreshing state...
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+<Output omitted for brevity>
+
+aws_lambda_function.getRunningInstances: Creation complete after 22s (ID: getRunningInstances)
+aws_lambda_function.getUntaggedInstances: Creation complete after 22s (ID: getUntaggedInstances)
+aws_lambda_function.getTaggedInstances: Creation complete after 23s (ID: getTaggedInstances)
+
+Apply complete! Resources: 25 added, 0 changed, 0 destroyed.
+```
+
+### Step 4: Test your Lambda functions
+Now you can test your new lambda functions. Use the test button at the top of the page to ensure they are working correctly. For your test event you can simply create a dummy event with the default JSON payload:
+
+![Configure test event](./assets/dummy_event.png)
+
+Check your slack channel to see the messages posted from your bot.
+
+### Step 5: Adjust Schedule
+By default the reporting lambdas are set to run once per day. You can customize the schedule by adjusting the `aws_cloudwatch_event_rule` resources. The schedule follows a Unix cron-style format: `cron(0 8 * * ? *)`. The instance_reaper will be most effective if it is run every hour.
+
+### Step 6: Go live
+_IMPORTANT_: If you want to actually stop and terminate instances in a live environment, you must uncomment/edit the code inside of `cleanUntaggedInstances.py` and `checkInstanceTTLs.py`. We have commented out the lines that do these actions so you can test before going live.  This is for your own safety and protection. In order to activate these scripts you must *both* uncomment those lines *and* set the is_active variable to True. You can uncomment the lines directly in the AWS Lambda editor, or make the changes locally and re-deploy your lambdas.
+
+See below for the lines that handle `stop()` and `terminate()` actions.
+
+```python
+def sleep_instance(instance_id,region):
+    ec2 = boto3.resource('ec2', region_name=region)
+    """Stops instances that have gone beyond their TTL"""
+    if str_to_bool(ISACTIVE) == True:
+        # Uncomment to make this live!
+        #ec2.instances.filter(InstanceIds=instance_id).stop()
+        logger.info("I stopped "+instance_id+" in "+region)
+    else:
+        logger.info("I would have stopped "+instance_id+" in "+region)
+
+def terminate_instance(instance_id,region):
+    ec2 = boto3.resource('ec2', region_name=region)
+    """Stops instances that have gone beyond their TTL"""
+    if str_to_bool(ISACTIVE) == True:
+        # Uncomment to make this live!
+        #ec2.instances.filter(InstanceIds=instance_id).terminate()
+        logger.info("I terminated "+instance_id+" in "+region)
+    else:
+        logger.info("I would have terminated "+instance_id+" in "+region)
+```
+
+
+
+
+
 See [example](example) for a complete example ....
 
 ## Documentation generation
