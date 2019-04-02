@@ -226,7 +226,7 @@ You can optionally encrypt the Slack Webhook URL so that it cannot be viewed in 
 ### Optional - Edit the Slack message and formatting
 If you'd like to customize the messages that get sent into your Slack channels, just edit the part of the code that calls the `send_slack_message` function. Note how you can put action buttons into your message to link your users to useful information or status pages.  The Slack API guide has examples and more info: https://api.slack.com/docs/message-formatting
 
-```python
+```
     send_slack_message(
         msg_text,
         title='AWS Instance Type Usage',
@@ -251,7 +251,7 @@ If you'd like to customize the messages that get sent into your Slack channels, 
 ### Optional - Send email instead of Slack messages
 If you don't have access to Slack or would rather send reports via email, simply comment out the lines in each function that run `send_slack_message` and uncomment the lines to `send_email` instead. For example, look at this section of code in `notifyInstanceUsage.py`.  You will need to verify your email address first in the AWS Simple Email Service control panel. You'll also need to change the SENDER and RECIPIENT variables listed at the top of the file to your email address.
 
-```python
+```
     # Uncomment these lines to use email for notifications
     send_email(
         SENDER,
