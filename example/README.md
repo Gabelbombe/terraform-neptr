@@ -168,3 +168,13 @@ Sentinel can help you:
   - Enforce tagging standards, such as the "TTL" and "owner" tags example
   - Mandate the use of hardened images that are approved by security and operations leaders
   - Create [a bunch of other rules](https://www.terraform.io/docs/enterprise/sentinel/examples.html)
+
+Sentinel runs like an automated test suite right before the infrastructure is provisioned. If all of your policies are followed in the Terraform provisioning plan, then the provisioning takes place. If not, the provisioning is stopped, and you can see what policies your plan violated.
+
+Now, instead of engineers using the AWS console, you'll have them use Terraform Enterprise, which has Sentinel-rules in place. This is a great way to meet the safety needs of the company stakeholders, and the velocity needs of the engineers and the business.
+
+![Policy Checker](../assets/policy_check.png)
+
+**Policy check passes.**
+
+![Hard Failure](../assets/hard_fail.png)
