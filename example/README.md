@@ -14,8 +14,6 @@ This write up will help you fix both of these problems with AWS-specific code th
   - The top 3 methods for cutting cloud costs
   - A real example of 3 tactics used to remove unneeded instances
   - Tools for organizing and tracking your cloud resources with granularity
-  [](#- What "serverless" and AWS Lambda are, and how to deploy a serverless app)
-  [](#- What Terraform is)
   - How to deploy our open source ChatOps bot for cleaning up AWS instances
   - How Terraform and Sentinel can help you prevent overspending
 
@@ -103,3 +101,22 @@ This graph shows where each successive action occurred, and how much it drove co
   You can see which step had the biggest impact. While the reminders can be helpful, there are ultimately a lot of unnecessary instances that operators lose track of without a strict tagging system. It's not uncommon to see a 30-40% drop in your daily cost. I also found that EC2 compute is the most frequently wasted resource type.
 
 So how do you deploy a reaper bot of your own? You'll be happy to know that if you go [here](https://github.com/ehime/terraform-neptr) you have the code for Reaper, as well as instructions on how to install and run it. The reaper bot is a serverless application that runs on AWS Lambda, so it's easy to run. It's also push button to deploy due to the fact that the infrastructure was written with Terraform.
+
+
+### After deploying the ChatOps bot
+
+Here's what the reaper bot can do:
+
+  - Whitelist resources to prevent the bot from touching them.
+  - Check for mandatory tags on AWS instances and notify people via Slack if untagged instances are found. (_We can identify the SSH key name, if it was provided, and if the name identifies a person, we can track them down_)
+  - Post a Slack report with a count of each instance type currently running across all regions.
+  - Shutdown untagged instances after _X_ days.
+  - Delete untagged instances after _Y_ days.
+  - Delete machines whose TTL has expired.
+  - And of course, it's open source, so you can modify the code to add more features like managing NatGateways or RDS instances.
+
+Remember that this bot can delete live AWS instances, so make sure the engineer deploying this understands the bot's code, your systems running on AWS, and holds a review process involving multiple operators.
+
+Here's what the reports looked like in Slack:
+
+![Reaper ChatOps](../assets/guten_tag.png)
