@@ -29,7 +29,7 @@ This article is relevant for managers and any technical roles tasked with keepin
   - 35 minutes to implement the Sentinel and Terraform workflow
 
 
-### A Rogue AWS Org story
+### A Rogue AWS Organization story
 
 In large enterprises, this is a common story.
 
@@ -178,3 +178,18 @@ Now, instead of engineers using the AWS console, you'll have them use Terraform 
 **Policy check passes.**
 
 ![Hard Failure](../assets/hard_fail.png)
+
+**Policy check fails. Viewing the logs.**
+
+Imagine the original rogue AWS scenario, but with Sentinel in place before you set engineers loose on cloud infrastructure services. They wouldn't have been able to make a mess in the first place.
+
+If you've already got a mess, then this paper should give you a helpful plan for cleaning it up and preventing future shadow IT practices.
+
+
+### Final takeaway
+
+Cloud costs typically get out of hand when there is not enough organization, accountability, or oversight. Many times, a messy cloud portfolio is the result of many honest mistakes.
+
+But the solution doesn't have to be complicated or harsh: Developers and operations professionals work best when there are awareness and guardrail features that work within their core version control and deployment tools without disrupting their workflow.
+
+Terraform and Sentinel can do that. They are a safety net that lets engineers work quickly while steering them in the direction of your company's best and safest practices.
