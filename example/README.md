@@ -1,6 +1,6 @@
-# Lowering your AWS cloud costs
+# Lowering Your AWS Cloud Costs
 
-_Are your developers spending too much money on orphan cloud instances? A simple ChatOps utility built on AWS Lambda can help! This Terraform module will help prevent further shadow IT practices and replace them with a sprinkle of Infrastructure as Code._
+_Are your engineers spending too much money on orphan cloud instances? A simple ChatOps utility built on AWS Lambda can help! This Terraform module will help prevent further Shadow IT practices and replace them with a sprinkle of Infrastructure as Code._
 
 Maybe you've experienced this before: You or your boss are shocked at how expensive your cloud services bill has become. Can you prove that all those cloud instances are being utilized with the greatest possible efficiency? Do you have a way to tag, organize and track all of your instances? If you've lost track of some instances that are no longer necessary, you're basically leaving the water running.
 
@@ -39,4 +39,15 @@ Unfortunately, those AWS accounts quickly becomes a free-for-all, with engineers
 
 Now imagine if you can that you are using something to the affect of [AWS Organizations](https://aws.amazon.com/organizations/) and not just gifting environments, but entire accounts to your engineers! Those hard earned and alotted dollars you need for projects, future improvements and promises to customers and business are now being stolen from Peter to pay Paul.
 
-**Congratulations!** You now have the spider web we affectionbatly refer to as a **Shadow IT Outlet!**
+**Congratulations!** You now have the spider web we affectionatley refer to as a **Shadow IT Outlet!**
+
+When management finally says these costs need to come down, it will already become a monumental task just to get visibility into what's going on. Who created all these resources? Looking in the AWS console, it's not clear who created or owns various instances because they can be created without name tags.
+
+If you find yourself in a similar mess, here are the questions you need to get answers to:
+
+  - What are the sizes of our EC2 instances?
+  - Which resources are safe to delete or shut down?
+  - Where are our instances running? Are they hiding in an unexpected AWS region?
+  - Should we really leave all instances running 24/7?
+  - Are we consuming much more than we need?
+  - How do we clean up this mess?
