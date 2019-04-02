@@ -93,3 +93,13 @@ Everyone has its own challenges with keeping AWS costs down. I use the same stra
 You can see the effect of each strategy in the AWS resource utilization graph below:
 
 ![NEPTR Introduction](../assets/wall_of_shame.png)
+
+This graph shows where each successive action occurred, and how much it drove costs down. The three actions included:
+
+  1. **Start nagging:** Send a notification to all AWS operators to clean out unused instances.
+  2. **Wall of Shame:** Encourage a bit of peer pressure with the _Wall of Shame_ which put operators with the most untagged instances on our reaper bot's Slack report.
+  3. **Reaper bot goes live:** This is when I set the reaper bot loose. It turned off or deleted any instances that didn't have the proper TTL tagging. You'll want to give your team several warnings to ensure that the most important and permanent processes are whitelisted before this last step.
+
+  You can see which step had the biggest impact. While the reminders can be helpful, there are ultimately a lot of unnecessary instances that operators lose track of without a strict tagging system. It's not uncommon to see a 30-40% drop in your daily cost. I also found that EC2 compute is the most frequently wasted resource type.
+
+So how do you deploy a reaper bot of your own? You'll be happy to know that if you go [here](..) you have the code for Reaper, as well as instructions on how to install and run it. The reaper bot is a serverless application that runs on AWS Lambda, so it's easy to run. It's also push button to deploy due to the fact that the infrastructure was written with Terraform.
