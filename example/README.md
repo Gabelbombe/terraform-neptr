@@ -122,3 +122,11 @@ Remember that this bot can delete live AWS instances, so make sure the engineer 
 Here's what the reports looked like in Slack:
 
 ![Reaper ChatOps](../assets/guten_morgen.png)
+
+This first screenshot is a basic AWS instance report that runs every morning telling your team all the instance types your company is running and how many there are of each type. This might help you catch the sudden appearance of unnecessary instances.
+
+![Reaper Activated](../assets/reaper_active.png)
+
+This second report shows instances scheduled for termination, so that there's fair warning before the bot deletes live resources.
+
+I found that these Slack reports also had a positive side-effect of training engineers using AWS to think about instance usage more efficiently.
