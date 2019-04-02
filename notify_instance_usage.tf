@@ -4,7 +4,7 @@ resource "aws_lambda_function" "notifyInstanceUsage" {
   function_name    = "notifyInstanceUsage"
   role             = "${aws_iam_role.lambda_notify.arn}"
   handler          = "notifyInstanceUsage.lambda_handler"
-  source_code_hash = "${base64sha256(file("./files/notifyInstanceUsage.zip"))}"
+  source_code_hash = "${base64sha256(file("./_files/notifyInstanceUsage.zip"))}"
   runtime          = "python3.6"
   timeout          = "120"
   description      = "Sends a notification message with info about number of running instances by type."
