@@ -130,3 +130,41 @@ This first screenshot is a basic AWS instance report that runs every morning tel
 This second report shows instances scheduled for termination, so that there's fair warning before the bot deletes live resources.
 
 I found that these Slack reports also had a positive side-effect of training engineers using AWS to think about instance usage more efficiently.
+
+
+## Adding guardrails & preventing future messes
+
+Okay, Let's assume that you've passed the cleanup stage with the help of your trusty reaper bot, or maybe you haven't started your cloud usage yet and you hope to minimize costs and prevent a mess from the outset. You need to have some rules and standards in place so you don't run into the same high cloud service bills that other companies have encountered.
+
+Terraform can take a lot of manual steps out of deploying and updating the reaper bot application. All of the dependencies and cleanup are taken care of for you, and your team weill not need to understand Python in order to deploy or troubleshoot the bot.
+
+How though, can you make sure that operators stick to your tagging standards once you've created them? You see that the automated cleanup by the reaper scripts was much more effective at cutting costs than reminders and the wall of shame. If you don't have strong policies that are more than just reminders and documentation, you might still end up with shadow IT practices. What if you could build the enforcement of those policies into the tools that developers and operators use to manage cloud instances? What if they couldn't forget or ignore the rules?
+
+
+### Sentinel
+
+Terraform Enterprise, a commercial product that includes enterprise features on top of open source Terraform, has a framework called "Sentinel" which implements policy as code.
+
+What that means is operators now have the ability to restrict what modifications each user can make to your infrastructure-similar to a fine-grained admin permissions system in a CMS. It also gives you the ability to enforce standards, like the suggested tagging system for AWS instances that was introduced earlier.
+
+```hcl
+# This policy enforces the mandatory AWS tags "TTL" and "owner" for all aws_instance resources.
+import "tfplan"
+
+main - rule {
+  all tfplan.resources.aws_instance as _,instances {
+    all instances as _, r {
+      r.applied.tags contains "TTL" and r.applied.tags contains "owner"
+    }
+  }
+}
+```
+
+Sentinel can help you:
+
+  - Limit the number of instances developers can create
+  - Allow instances to run only in specific regions
+  - Restrict the types of instance sizes developers can create
+  - Enforce tagging standards, such as the "TTL" and "owner" tags example
+  - Mandate the use of hardened images that are approved by security and operations leaders
+  - Create [a bunch of other rules](https://www.terraform.io/docs/enterprise/sentinel/examples.html)
