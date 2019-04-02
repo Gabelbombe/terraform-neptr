@@ -29,7 +29,7 @@ This article is relevant for managers and any technical roles tasked with keepin
   - 35 minutes to implement the Sentinel and Terraform workflow
 
 
-### A rogue AWS account story
+### A Rogue AWS Org story
 
 In large enterprises, this is a common story.
 
@@ -84,3 +84,12 @@ AWS has a very flexible tagging system. With that flexibility though comes the n
 After you've gotten familiar with the Cost Explorer, the next step should be to have your primary AWS operators create tagging standards and document them for team visibility. The most useful instance tags (especially for the purposes of the demo below) are TTL (time-to-live) and owner. Time-to-live is the time limit you put on the life of your instance, which is crucial for identifying what's not in use.
 
 Later in this paper, I'll show you a tool that can enforce your tagging standards using more than just a stern email.
+
+
+### How much can you save? A real-world example
+
+Everyone has its own challenges with keeping AWS costs down. I use the same strategies described above plus a few more described below. The most effective tool was a ChatOps utility I built called "NEPTR." (codename: "Reaper"). The reaper bot cleans up unused and expired AWS instances on a regular schedule.
+
+You can see the effect of each strategy in the AWS resource utilization graph below:
+
+![NEPTR Introduction](../assets/wall_of_shame.png)
