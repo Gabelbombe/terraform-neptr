@@ -8,7 +8,9 @@ Are you spending too much on your AWS instances every month? Do your developers 
 
 ```hcl
 module "throw_pies" {
-  source      = "git@github.com:ehime/terraform-neptr?ref=v1.0.0"
+  source          = "git@github.com:ehime/terraform-neptr?ref=v1.0.0"
+  region          = "sa-central-1"
+  slack_hook_url  = "https://hooks.slack.com/services/foo_service"
 }
 ```
 
@@ -38,27 +40,27 @@ This Terraform configuration deploys AWS Lambda functions that will implement th
 ### Directory Structure
 A description of what each file does:
 ```bash
-main.tf - Main configuration file. REQUIRED
-data_collectors.tf - Lambda functions for gathering instance data. REQUIRED
-iam_roles.tf - Configures IAM role and policies for your Lambda functions. REQUIRED
-notify_instance_usage.tf - sends reports about running instances.
-notify_untagged.tf - sends reports about untagged instances and their key names.
-instance_reaper.tf - Checks instance TTL tag, terminates instances that have expired.
-untagged_janitor.tf - Cleans up untagged instances after a set number of days.
-_files/ - Contains all of the lambda source code, zip files, and IAM template files.
+  main.tf - Main configuration file. REQUIRED
+  data_collectors.tf - Lambda functions for gathering instance data. REQUIRED
+  iam_roles.tf - Configures IAM role and policies for your Lambda functions. REQUIRED
+  notify_instance_usage.tf - sends reports about running instances.
+  notify_untagged.tf - sends reports about untagged instances and their key names.
+  instance_reaper.tf - Checks instance TTL tag, terminates instances that have expired.
+  untagged_janitor.tf - Cleans up untagged instances after a set number of days.
+  _files/ - Contains all of the lambda source code, zip files, and IAM template files.
 ```
 
 ## Prerequisites
 1. Admin level access to your AWS account via API. If admin access is not available you must have the ability to create, describe, and delete the following types of resources in AWS. Fine-grained configuration of IAM policies is beyond the scope of this guide. We will assume you have API keys and appropriate permissions that allow you to create the following resources using Terraform:
 ```bash
-aws\_cloudwatch\_event\_rule
-aws\_cloudwatch\_event\_target
-aws\_iam\_role
-aws\_iam\_role\_policy
-aws\_lambda\_function
-aws\_lambda\_permission
-aws\_kms\_alias
-aws\_kms\_key
+  aws\_cloudwatch\_event\_rule
+  aws\_cloudwatch\_event\_target
+  aws\_iam\_role
+  aws\_iam\_role\_policy
+  aws\_lambda\_function
+  aws\_lambda\_permission
+  aws\_kms\_alias
+  aws\_kms\_key
 ```
 
 2. Properly configured workstation or server for running Terraform commands. New to Terraform? Try the HashiCorp [Getting Started Guide](https://www.terraform.io/intro/getting-started/install.html)
@@ -87,13 +89,13 @@ Edit the `variables.tf` file and choose which region you want to run your Lambda
 
 ```hcl
 variable "region" {
-description = "AWS Region"
-default     = "sa-central-1"
+  description = "AWS Region"
+  default     = "sa-central-1"
 }
 
 variable "slack_hook_url" {
-description = "Slack incoming webhook URL, get this from the slack management page."
-default = "https://hooks.slack.com/services/REPLACE/WITH/YOUR_WEBHOOK"
+  description = "Slack incoming webhook URL, get this from the slack management page."
+  default = "https://hooks.slack.com/services/REPLACE/WITH/YOUR_WEBHOOK"
 }
 ```
 
@@ -151,7 +153,7 @@ data.template_file.iam_lambda_notify: Refreshing state...
 
 An execution plan has been generated and is shown below.
 Resource actions are indicated with the following symbols:
-+ create
+  + create
 
 Terraform will perform the following actions:
 
@@ -181,24 +183,24 @@ See below for the lines that handle `stop()` and `terminate()` actions.
 
 ```python
 def sleep_instance(instance_id,region):
-ec2 = boto3.resource('ec2', region_name=region)
-"""Stops instances that have gone beyond their TTL"""
-if str_to_bool(ISACTIVE) == True:
-# Uncomment to make this live!
-#ec2.instances.filter(InstanceIds=instance_id).stop()
-logger.info("I stopped "+instance_id+" in "+region)
-else:
-logger.info("I would have stopped "+instance_id+" in "+region)
+    ec2 = boto3.resource('ec2', region_name=region)
+    """Stops instances that have gone beyond their TTL"""
+    if str_to_bool(ISACTIVE) == True:
+        # Uncomment to make this live!
+        #ec2.instances.filter(InstanceIds=instance_id).stop()
+        logger.info("I stopped "+instance_id+" in "+region)
+    else:
+        logger.info("I would have stopped "+instance_id+" in "+region)
 
 def terminate_instance(instance_id,region):
-ec2 = boto3.resource('ec2', region_name=region)
-"""Stops instances that have gone beyond their TTL"""
-if str_to_bool(ISACTIVE) == True:
-# Uncomment to make this live!
-#ec2.instances.filter(InstanceIds=instance_id).terminate()
-logger.info("I terminated "+instance_id+" in "+region)
-else:
-logger.info("I would have terminated "+instance_id+" in "+region)
+    ec2 = boto3.resource('ec2', region_name=region)
+    """Stops instances that have gone beyond their TTL"""
+    if str_to_bool(ISACTIVE) == True:
+        # Uncomment to make this live!
+        #ec2.instances.filter(InstanceIds=instance_id).terminate()
+        logger.info("I terminated "+instance_id+" in "+region)
+    else:
+        logger.info("I would have terminated "+instance_id+" in "+region)
 ```
 
 ## Next Steps
@@ -225,44 +227,44 @@ You can optionally encrypt the Slack Webhook URL so that it cannot be viewed in 
 ### Optional - Edit the Slack message and formatting
 If you'd like to customize the messages that get sent into your Slack channels, just edit the part of the code that calls the `send_slack_message` function. Note how you can put action buttons into your message to link your users to useful information or status pages.  The Slack API guide has examples and more info: https://api.slack.com/docs/message-formatting
 
-```
-send_slack_message(
-msg_text,
-title='AWS Instance Type Usage',
-text="```\n"+report+"\n```",
-fallback='AWS Instance Type Usage',
-color='warning',
-actions = [
-{
-"type": "button",
-"text": ":money-burning: AWS Cost Explorer",
-"url": "http://amzn.to/2EBAfQu"
-},
-{
-"type": "button",
-"text": ":broom: AWS Console",
-"url": "https://console.aws.amazon.com/ec2/v2/home"
-},
-]
-)
+```python
+    send_slack_message(
+        msg_text,
+        title='AWS Instance Type Usage',
+        text="```\n"+report+"\n```",
+        fallback='AWS Instance Type Usage',
+        color='warning',
+        actions = [
+            {
+                "type": "button",
+                "text": ":money-burning: AWS Cost Explorer",
+                "url": "http://amzn.to/2EBAfQu"
+            },
+            {
+                "type": "button",
+                "text": ":broom: AWS Console",
+                "url": "https://console.aws.amazon.com/ec2/v2/home"
+            },
+        ]
+    )
 ```
 
 ### Optional - Send email instead of Slack messages
 If you don't have access to Slack or would rather send reports via email, simply comment out the lines in each function that run `send_slack_message` and uncomment the lines to `send_email` instead. For example, look at this section of code in `notifyInstanceUsage.py`.  You will need to verify your email address first in the AWS Simple Email Service control panel. You'll also need to change the SENDER and RECIPIENT variables listed at the top of the file to your email address.
 
-```
-# Uncomment these lines to use email for notifications
-send_email(
-SENDER,
-RECIPIENT,
-AWS_REGION,
-SUBJECT,
-report,
-CHARSET)
+```python
+    # Uncomment these lines to use email for notifications
+    send_email(
+        SENDER,
+        RECIPIENT,
+        AWS_REGION,
+        SUBJECT,
+        report,
+        CHARSET)
 
-# send_slack_message(
-#     msg_text,
-#     title=SUBJECT,
+    # send_slack_message(
+    #     msg_text,
+    #     title=SUBJECT,
 ```
 
 ### Clean up

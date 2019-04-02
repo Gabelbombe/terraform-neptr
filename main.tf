@@ -9,7 +9,9 @@ Are you spending too much on your AWS instances every month? Do your developers 
 
 * ```hcl
 * module "throw_pies" {
-*   source      = "git@github.com:ehime/terraform-neptr?ref=v1.0.0"
+*   source          = "git@github.com:ehime/terraform-neptr?ref=v1.0.0"
+*   region          = "sa-central-1"
+*   slack_hook_url  = "https://hooks.slack.com/services/foo_service"
 * }
 * ```
 
@@ -38,29 +40,29 @@ This Terraform configuration deploys AWS Lambda functions that will implement th
 
 ### Directory Structure
 A description of what each file does:
-```bash
-    main.tf - Main configuration file. REQUIRED
-    data_collectors.tf - Lambda functions for gathering instance data. REQUIRED
-    iam_roles.tf - Configures IAM role and policies for your Lambda functions. REQUIRED
-    notify_instance_usage.tf - sends reports about running instances.
-    notify_untagged.tf - sends reports about untagged instances and their key names.
-    instance_reaper.tf - Checks instance TTL tag, terminates instances that have expired.
-    untagged_janitor.tf - Cleans up untagged instances after a set number of days.
-    _files/ - Contains all of the lambda source code, zip files, and IAM template files.
-```
+* ```bash
+*   main.tf - Main configuration file. REQUIRED
+*   data_collectors.tf - Lambda functions for gathering instance data. REQUIRED
+*   iam_roles.tf - Configures IAM role and policies for your Lambda functions. REQUIRED
+*   notify_instance_usage.tf - sends reports about running instances.
+*   notify_untagged.tf - sends reports about untagged instances and their key names.
+*   instance_reaper.tf - Checks instance TTL tag, terminates instances that have expired.
+*   untagged_janitor.tf - Cleans up untagged instances after a set number of days.
+*   _files/ - Contains all of the lambda source code, zip files, and IAM template files.
+* ```
 
 ## Prerequisites
   1. Admin level access to your AWS account via API. If admin access is not available you must have the ability to create, describe, and delete the following types of resources in AWS. Fine-grained configuration of IAM policies is beyond the scope of this guide. We will assume you have API keys and appropriate permissions that allow you to create the following resources using Terraform:
-```bash
-    aws\_cloudwatch\_event\_rule
-    aws\_cloudwatch\_event\_target
-    aws\_iam\_role
-    aws\_iam\_role\_policy
-    aws\_lambda\_function
-    aws\_lambda\_permission
-    aws\_kms\_alias
-    aws\_kms\_key
-```
+* ```bash
+*   aws\_cloudwatch\_event\_rule
+*   aws\_cloudwatch\_event\_target
+*   aws\_iam\_role
+*   aws\_iam\_role\_policy
+*   aws\_lambda\_function
+*   aws\_lambda\_permission
+*   aws\_kms\_alias
+*   aws\_kms\_key
+* ```
 
   2. Properly configured workstation or server for running Terraform commands. New to Terraform? Try the HashiCorp [Getting Started Guide](https://www.terraform.io/intro/getting-started/install.html)
 
@@ -68,12 +70,12 @@ A description of what each file does:
 
 ## TL;DR
 Below are all of the commands you'll need to run to get these lambda scripts deployed in your account:
-```bash
-# Be sure to configure your Slack webhook and edit your variables.tf file first!
-terraform init
-terraform plan
-terraform apply
-```
+* ```bash
+* # Be sure to configure your Slack webhook and edit your variables.tf file first!
+* terraform init
+* terraform plan
+* terraform apply
+* ```
 
 ## Steps
 The following walkthrough describes in detail the steps required to enable the cleanup and 'reaper' scripts that are included in this repo.
@@ -86,17 +88,17 @@ Set up your Slack incoming webhook: https://my.slack.com/services/new/incoming-w
 ### Step 2: Configure your variables
 Edit the `variables.tf` file and choose which region you want to run your Lambda functions in. These functions can be run from any region and manage instances in any other region.
 
-```hcl
-variable "region" {
-  description = "AWS Region"
-  default     = "sa-central-1"
-}
-
-variable "slack_hook_url" {
-  description = "Slack incoming webhook URL, get this from the slack management page."
-  default = "https://hooks.slack.com/services/REPLACE/WITH/YOUR_WEBHOOK"
-}
-```
+* ```hcl
+* variable "region" {
+*   description = "AWS Region"
+*   default     = "sa-central-1"
+* }
+*
+* variable "slack_hook_url" {
+*   description = "Slack incoming webhook URL, get this from the slack management page."
+*   default = "https://hooks.slack.com/services/REPLACE/WITH/YOUR_WEBHOOK"
+* }
+* ```
 
  * Set the `slack_hook_url` variable to the URL you generated in step #1.
  * Set any tags that you want to be considered mandatory in the `mandatory_tags` variable. This is a comma separated list, with no spaces between items.
@@ -111,26 +113,26 @@ variable "slack_hook_url" {
 
 #### Request
 
-```bash
-$ terraform plan
-```
+* ```bash
+* $ terraform plan
+* ```
 
 #### Response
-```bash
-Refreshing Terraform state in-memory prior to plan...
-The refreshed state will be used to calculate this plan, but will not be
-persisted to local or remote state storage.
-
-<Output omitted for brevity>
-
-Plan: 25 to add, 0 to change, 0 to destroy.
-
-------------------------------------------------------------------------
-
-Note: You didn't specify an "-out" parameter to save this plan, so Terraform
-can't guarantee that exactly these actions will be performed if
-"terraform apply" is subsequently run.
-```
+* ```bash
+* Refreshing Terraform state in-memory prior to plan...
+* The refreshed state will be used to calculate this plan, but will not be
+* persisted to local or remote state storage.
+*
+* <Output omitted for brevity>
+*
+* Plan: 25 to add, 0 to change, 0 to destroy.
+*
+* ------------------------------------------------------------------------
+*
+* Note: You didn't specify an "-out" parameter to save this plan, so Terraform
+* can't guarantee that exactly these actions will be performed if
+* "terraform apply" is subsequently run.
+* ```
 
 ### Step 4: Run Terraform Apply
 
@@ -139,31 +141,31 @@ can't guarantee that exactly these actions will be performed if
 
 #### Request
 
-```bash
-$ terraform apply
-```
+* ```bash
+* $ terraform apply
+* ```
 
 #### Response
-```bash
-data.aws_caller_identity.current: Refreshing state...
-data.template_file.iam_lambda_read_instances: Refreshing state...
-data.template_file.iam_lambda_stop_and_terminate_instances: Refreshing state...
-data.template_file.iam_lambda_notify: Refreshing state...
-
-An execution plan has been generated and is shown below.
-Resource actions are indicated with the following symbols:
-  + create
-
-Terraform will perform the following actions:
-
-<Output omitted for brevity>
-
-aws_lambda_function.getRunningInstances: Creation complete after 22s (ID: getRunningInstances)
-aws_lambda_function.getUntaggedInstances: Creation complete after 22s (ID: getUntaggedInstances)
-aws_lambda_function.getTaggedInstances: Creation complete after 23s (ID: getTaggedInstances)
-
-Apply complete! Resources: 25 added, 0 changed, 0 destroyed.
-```
+* ```bash
+* data.aws_caller_identity.current: Refreshing state...
+* data.template_file.iam_lambda_read_instances: Refreshing state...
+* data.template_file.iam_lambda_stop_and_terminate_instances: Refreshing state...
+* data.template_file.iam_lambda_notify: Refreshing state...
+*
+* An execution plan has been generated and is shown below.
+* Resource actions are indicated with the following symbols:
+*   + create
+*
+* Terraform will perform the following actions:
+*
+* <Output omitted for brevity>
+*
+* aws_lambda_function.getRunningInstances: Creation complete after 22s (ID: getRunningInstances)
+* aws_lambda_function.getUntaggedInstances: Creation complete after 22s (ID: getUntaggedInstances)
+* aws_lambda_function.getTaggedInstances: Creation complete after 23s (ID: getTaggedInstances)
+*
+* Apply complete! Resources: 25 added, 0 changed, 0 destroyed.
+* ```
 
 ### Step 4: Test your Lambda functions
 Now you can test your new lambda functions. Use the test button at the top of the page to ensure they are working correctly. For your test event you can simply create a dummy event with the default JSON payload:
@@ -180,27 +182,27 @@ _IMPORTANT_: If you want to actually stop and terminate instances in a live envi
 
 See below for the lines that handle `stop()` and `terminate()` actions.
 
-```python
-def sleep_instance(instance_id,region):
-    ec2 = boto3.resource('ec2', region_name=region)
-    """Stops instances that have gone beyond their TTL"""
-    if str_to_bool(ISACTIVE) == True:
-        # Uncomment to make this live!
-        #ec2.instances.filter(InstanceIds=instance_id).stop()
-        logger.info("I stopped "+instance_id+" in "+region)
-    else:
-        logger.info("I would have stopped "+instance_id+" in "+region)
-
-def terminate_instance(instance_id,region):
-    ec2 = boto3.resource('ec2', region_name=region)
-    """Stops instances that have gone beyond their TTL"""
-    if str_to_bool(ISACTIVE) == True:
-        # Uncomment to make this live!
-        #ec2.instances.filter(InstanceIds=instance_id).terminate()
-        logger.info("I terminated "+instance_id+" in "+region)
-    else:
-        logger.info("I would have terminated "+instance_id+" in "+region)
-```
+* ```python
+* def sleep_instance(instance_id,region):
+*     ec2 = boto3.resource('ec2', region_name=region)
+*     """Stops instances that have gone beyond their TTL"""
+*     if str_to_bool(ISACTIVE) == True:
+*         # Uncomment to make this live!
+*         #ec2.instances.filter(InstanceIds=instance_id).stop()
+*         logger.info("I stopped "+instance_id+" in "+region)
+*     else:
+*         logger.info("I would have stopped "+instance_id+" in "+region)
+*
+* def terminate_instance(instance_id,region):
+*     ec2 = boto3.resource('ec2', region_name=region)
+*     """Stops instances that have gone beyond their TTL"""
+*     if str_to_bool(ISACTIVE) == True:
+*         # Uncomment to make this live!
+*         #ec2.instances.filter(InstanceIds=instance_id).terminate()
+*         logger.info("I terminated "+instance_id+" in "+region)
+*     else:
+*         logger.info("I would have terminated "+instance_id+" in "+region)
+* ```
 
 ## Next Steps
 
@@ -208,11 +210,11 @@ def terminate_instance(instance_id,region):
 You can optionally encrypt the Slack Webhook URL so that it cannot be viewed in plaintext in the AWS console. This also allows you to commit your webhook URL to source code without worrying about it getting into the wrong hands. This also provides some extra security if you are working with a shared AWS account. Here are the additional steps you need to follow to enable encryption:
 
 1. Uncomment the lines in `notifyUntaggedInstances.py` and `notifyInstanceUsage.py` (or other lambdas) that enable encryption. These are the lines you'll need to uncomment. Note how we are using the b64decode Python module to decrypt the encrypted Slack Webhook:
-```bash
-# from base64 import b64decode
-# ENCRYPTED_HOOK_URL = os.environ['slackHookUrl']
-# HOOK_URL = boto3.client('kms').decrypt(CiphertextBlob=b64decode(os.environ['slackHookUrl']))['Plaintext'].decode('utf-8')
-```
+* ```bash
+* # from base64 import b64decode
+* # ENCRYPTED_HOOK_URL = os.environ['slackHookUrl']
+* # HOOK_URL = boto3.client('kms').decrypt(CiphertextBlob=b64decode(os.environ['slackHookUrl']))['Plaintext'].decode('utf-8')
+* ```
 2. Rename the `encryption.tf.disabled` file to `encryption.tf`. Terraform reads any file that ends with the *.tf extension.
 3. Run `terraform apply` to generate a new AWS KMS key called `notify_slack`.
 4. Log onto the AWS console and switch into the region where you deployed your Lambdas. Navigate to the AWS Lambda section of the dashboard.
@@ -226,45 +228,45 @@ You can optionally encrypt the Slack Webhook URL so that it cannot be viewed in 
 ### Optional - Edit the Slack message and formatting
 If you'd like to customize the messages that get sent into your Slack channels, just edit the part of the code that calls the `send_slack_message` function. Note how you can put action buttons into your message to link your users to useful information or status pages.  The Slack API guide has examples and more info: https://api.slack.com/docs/message-formatting
 
-```
-    send_slack_message(
-        msg_text,
-        title='AWS Instance Type Usage',
-        text="```\n"+report+"\n```",
-        fallback='AWS Instance Type Usage',
-        color='warning',
-        actions = [
-            {
-                "type": "button",
-                "text": ":money-burning: AWS Cost Explorer",
-                "url": "http://amzn.to/2EBAfQu"
-            },
-            {
-                "type": "button",
-                "text": ":broom: AWS Console",
-                "url": "https://console.aws.amazon.com/ec2/v2/home"
-            },
-        ]
-    )
-```
+* ```python
+*     send_slack_message(
+*         msg_text,
+*         title='AWS Instance Type Usage',
+*         text="```\n"+report+"\n```",
+*         fallback='AWS Instance Type Usage',
+*         color='warning',
+*         actions = [
+*             {
+*                 "type": "button",
+*                 "text": ":money-burning: AWS Cost Explorer",
+*                 "url": "http://amzn.to/2EBAfQu"
+*             },
+*             {
+*                 "type": "button",
+*                 "text": ":broom: AWS Console",
+*                 "url": "https://console.aws.amazon.com/ec2/v2/home"
+*             },
+*         ]
+*     )
+* ```
 
 ### Optional - Send email instead of Slack messages
 If you don't have access to Slack or would rather send reports via email, simply comment out the lines in each function that run `send_slack_message` and uncomment the lines to `send_email` instead. For example, look at this section of code in `notifyInstanceUsage.py`.  You will need to verify your email address first in the AWS Simple Email Service control panel. You'll also need to change the SENDER and RECIPIENT variables listed at the top of the file to your email address.
 
-```
-    # Uncomment these lines to use email for notifications
-    send_email(
-        SENDER,
-        RECIPIENT,
-        AWS_REGION,
-        SUBJECT,
-        report,
-        CHARSET)
-
-    # send_slack_message(
-    #     msg_text,
-    #     title=SUBJECT,
-```
+* ```python
+*     # Uncomment these lines to use email for notifications
+*     send_email(
+*         SENDER,
+*         RECIPIENT,
+*         AWS_REGION,
+*         SUBJECT,
+*         report,
+*         CHARSET)
+*
+*     # send_slack_message(
+*     #     msg_text,
+*     #     title=SUBJECT,
+* ```
 
 ### Clean up
 Cleanup is simple, just run `terraform destroy` in your workspace and all resources will be cleaned up.
@@ -274,9 +276,9 @@ See [example](example) for a complete example ....
 ## Documentation generation
 Documentation should be modified within `main.tf` and generated using [terraform-docs](https://github.com/segmentio/terraform-docs):
 
-```bash
-terraform-docs md ./ |sed '$d' >| README.md
-```
+* ```bash
+* terraform-docs md ./ |sed '$d' >| README.md
+* ```
 
 ## License
 GPL 3.0 Licensed. See [LICENSE](https://github.com/ehime/terraform-transitgateway/tree/master/LICENSE) for full details.
