@@ -66,3 +66,11 @@ The remainder of this paper will focus on the first cost-reduction strategy, whi
   - [Identifying Opportunities to Right Size](https://docs.aws.amazon.com/aws-technical-content/latest/cost-optimization-right-sizing/identifying-opportunities-to-right-size.html)
   - [Cost Optimization: EC2 Right Sizing](https://aws.amazon.com/answers/account-management/cost-optimization-ec2-right-sizing/)
   - [The Ultimate Guide to AWS Reserved Instances](https://www.cloudhealthtech.com/blog/ultimate-guide-aws-reserved-instances-part-1-planning-and-analysis)
+
+#### Know where your money is going
+
+In order to _shut off anything that's not in use,_ you'll need to start by identifying instances and resources that are safe to shut off. With the amount of tools out there that are available for this it can seems like a daunting task. Luckily though for AWS, your go-to tool will be one of my all time favourites, AWS [Cost Explorer](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-explorer-what-is.html).
+
+Take a look at this graph from the Cost Explorer:
+
+![Monthly EC2 Running hours](../assets/cost_explorer.png)
