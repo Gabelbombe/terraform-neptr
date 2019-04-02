@@ -50,21 +50,21 @@ A description of what each file does:
 ```
 
 ## Prerequisites
-1. Admin level access to your AWS account via API. If admin access is not available you must have the ability to create, describe, and delete the following types of resources in AWS. Fine-grained configuration of IAM policies is beyond the scope of this guide. We will assume you have API keys and appropriate permissions that allow you to create the following resources using Terraform:
-```bash
-    aws\_cloudwatch\_event\_rule
-    aws\_cloudwatch\_event\_target
-    aws\_iam\_role
-    aws\_iam\_role\_policy
-    aws\_lambda\_function
-    aws\_lambda\_permission
-    aws\_kms\_alias
-    aws\_kms\_key
-```
+  1. Admin level access to your AWS account via API. If admin access is not available you must have the ability to create, describe, and delete the following types of resources in AWS. Fine-grained configuration of IAM policies is beyond the scope of this guide. We will assume you have API keys and appropriate permissions that allow you to create the following resources using Terraform:
+  ```bash
+      aws\_cloudwatch\_event\_rule
+      aws\_cloudwatch\_event\_target
+      aws\_iam\_role
+      aws\_iam\_role\_policy
+      aws\_lambda\_function
+      aws\_lambda\_permission
+      aws\_kms\_alias
+      aws\_kms\_key
+  ```
 
-2. Properly configured workstation or server for running Terraform commands. New to Terraform? Try our [Getting Started Guide](https://www.terraform.io/intro/getting-started/install.html)
+  2. Properly configured workstation or server for running Terraform commands. New to Terraform? Try our [Getting Started Guide](https://www.terraform.io/intro/getting-started/install.html)
 
-3. An [incoming webhook integration](https://api.slack.com/incoming-webhooks) in your Slack account. If you want to receive notifications about instance usage and tags you'll need to be able to create a webhook or ask your administrator to help you create one.
+  3. An [incoming webhook integration](https://api.slack.com/incoming-webhooks) in your Slack account. If you want to receive notifications about instance usage and tags you'll need to be able to create a webhook or ask your administrator to help you create one.
 
 
 See [example](example) for a complete example ....
