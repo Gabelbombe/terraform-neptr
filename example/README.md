@@ -55,11 +55,11 @@ If you find yourself in a similar mess, here are the questions you need to get a
 
 ### Reducing costs: Real-world strategies
 
-  1. The three main ways to cut cloud costs are:
-  2. Shut off anything that's not in use.
-  3. Take a look at your health checks and CloudWatch logs (for AWS) to determine if you're buying the right sized instances.
+The three main ways to cut cloud costs are:
 
-After 1 and 2 are under control, get some historical data and make informed purchases of [reserved instances](https://aws.amazon.com/ec2/pricing/reserved-instances/) for your most common instance sizes. You're buying instances in advance, so if you use a lot less than what you pay for, you're not cutting costs—you might actually be making your costs higher.
+  1. Shut off anything that's not in use.
+  2. Take a look at your health checks and CloudWatch logs (for AWS) to determine if you're buying the right sized instances.
+  3. After 1 and 2 are under control, get some historical data and make informed purchases of [reserved instances](https://aws.amazon.com/ec2/pricing/reserved-instances/) for your most common instance sizes. You're buying instances in advance, so if you use a lot less than what you pay for, you're not cutting costs—you might actually be making your costs higher.
 
 The remainder of this paper will focus on the first cost-reduction strategy, which usually yields the largest reduction in cloud costs. For the other two strategies, consult these resources:
 
